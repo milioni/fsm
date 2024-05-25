@@ -1,0 +1,52 @@
+# Example settings
+examples/FSM_STM32F7/.settings/
+
+# Example Debug
+examples/FSM_STM32F7/Debug/
+
+# Generated files
+docs/
+
+# VSCode Settings
+.vscode/
+
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+*.bin
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
