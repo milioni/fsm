@@ -1,5 +1,6 @@
 # Example settings
 examples/FSM_STM32F7/.settings/
+examples/.metadata/
 
 # Example Debug
 examples/FSM_STM32F7/Debug/

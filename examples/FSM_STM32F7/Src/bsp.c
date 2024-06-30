@@ -52,6 +52,22 @@ bsp_button_t BSP_Wait_Buton(uint32_t timeout)
 				result = BSP_BUTTON_SELECT;
 			}
 		}
+		else if( HAL_GPIO_ReadPin( BSP_BUTTON_UP_ADDR ) == 0 )
+		{
+			if(result != BSP_BUTTON_UP)
+			{
+				retries = 0;
+				result = BSP_BUTTON_UP;
+			}
+		}
+		else if( HAL_GPIO_ReadPin( BSP_BUTTON_DOWN_ADDR ) == 0 )
+		{
+			if(result != BSP_BUTTON_DOWN)
+			{
+				retries = 0;
+				result = BSP_BUTTON_DOWN;
+			}
+		}
 		else if( HAL_GPIO_ReadPin( BSP_BUTTON_LEFT_ADDR ) == 0 )
 		{
 			if(result != BSP_BUTTON_LEFT)

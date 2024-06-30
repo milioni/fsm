@@ -29,8 +29,11 @@
  */
 typedef enum {
 	EV_NONE,
-	EV_BACK,
-	EV_NEXT,
+	EV_SELECT,
+	EV_UP,
+	EV_DOWN,
+	EV_LEFT,
+	EV_RIGHT,
 
 	EV_LIMIT
 }evHandler;
@@ -39,10 +42,12 @@ typedef enum {
 /**
  * Protótipos de Funções Públicas
  */
-evHandler menu_init			(fsm_handler_t* this);
-evHandler menu_main			(fsm_handler_t* this);
-evHandler menu_brightness	(fsm_handler_t* this);
-evHandler menu_contrast		(fsm_handler_t* this);
+evHandler menu_off		(fsm_handler_t* this);
+evHandler menu_on		(fsm_handler_t* this);
+evHandler menu_play		(fsm_handler_t* this);
+evHandler menu_treble	(fsm_handler_t* this);
+evHandler menu_mid		(fsm_handler_t* this);
+evHandler menu_bass		(fsm_handler_t* this);
 
 /**
  * @}

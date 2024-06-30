@@ -26,99 +26,198 @@
  */
 
 /**
- * @brief	Estado inicial da máquina
+ * @brief	Estado inicial da máquina (inativo)
  * @param	fsm ponteiro para estrutura FSM
  * @param	this Manipulador do objeto de máquina de estados
  * @return	sinal de resposta obtido durante a execução do estado
  */
-evHandler menu_init(fsm_handler_t* this)
+evHandler menu_off(fsm_handler_t* this)
 {
-	// Executa as inicializações necessárias
+	// Apaga o backlight
 	// ...
 
-	// Avança para o Menu principal
-	return(EV_NEXT);
-}
-
-/**
- * @brief	Exibe a tela inicial
- * @param	fsm ponteiro para estrutura FSM
- * @param	this Manipulador do objeto de máquina de estados
- * @return	sinal de resposta obtido durante a execução do estado
- */
-evHandler menu_main(fsm_handler_t* this)
-{
-	// Aguarda se a tecla SELECT ser pressionada
-	switch(BSP_Wait_Buton(1000))
-	{
-	case BSP_BUTTON_SELECT:
-		// Abre o Menu de configurações
-		return(EV_NEXT);
-
-	default:
-		break;
+	// Aguarda a tecla SELECT ser pressionada
+	if(BSP_Wait_Buton(-1) == BSP_BUTTON_SELECT)
+	{	// Abre o Menu de configurações
+		return(EV_SELECT);
 	}
 
-	// Não faz nada
+	// Continua no estado atual
 	return(EV_NONE);
 }
 
 /**
- * @brief	Exibe a tela para configuração do parâmetro brilho
+ * @brief	Estado ativo da máquina
  * @param	fsm ponteiro para estrutura FSM
  * @param	this Manipulador do objeto de máquina de estados
  * @return	sinal de resposta obtido durante a execução do estado
  */
-evHandler menu_brightness(fsm_handler_t* this)
+evHandler menu_on(fsm_handler_t* this)
 {
-	switch(BSP_Wait_Buton(5000))
+	// Liga o backlight
+	// ...
+
+	// Capura a tecla pressionada
+	switch(BSP_Wait_Buton(60000))
 	{
 	case BSP_BUTTON_SELECT:
-		// Abre o próximo Menu de configurações
-		return(EV_NEXT);
+		// Play
+		return(EV_SELECT);
 
-	case BSP_BUTTON_LEFT:
-		// Diminui o brilho
-		return(EV_NONE);
+	case BSP_BUTTON_UP:
+		// Abre o menu de configurações
+		return(EV_UP);
 
-	case BSP_BUTTON_RIGHT:
-		// Aumenta o brilho
-		return(EV_NONE);
+	case BSP_BUTTON_DOWN:
+		// Abre o menu de configurações
+		return(EV_DOWN);
 
 	default:
 		break;
 	}
 
-	// Retorna para Menu principal
-	return(EV_BACK);
+	// Continua no estado atual
+	return(EV_NONE);
 }
 
 /**
- * @brief	Exibe a tela para configuração do parâmetro contraste
+ * @brief	Exibe a tela tocando
  * @param	fsm ponteiro para estrutura FSM
  * @param	this Manipulador do objeto de máquina de estados
  * @return	sinal de resposta obtido durante a execução do estado
  */
-evHandler menu_contrast(fsm_handler_t* this)
+evHandler menu_play(fsm_handler_t* this)
 {
-	switch(BSP_Wait_Buton(5000))
+	// Capura a tecla pressionada
+	switch(BSP_Wait_Buton(1000))
 	{
 	case BSP_BUTTON_SELECT:
-		// Abre o próximo Menu de configurações
-		return(EV_NEXT);
+		// Pause
+		return(EV_SELECT);
+
+	case BSP_BUTTON_UP:
+		// Aumenta o volume
+		break;
+
+	case BSP_BUTTON_DOWN:
+		// Diminui o volume
+		break;
 
 	case BSP_BUTTON_LEFT:
-		// Diminui o contraste
-		return(EV_NONE);
+		// Volta musica
+		break;
 
 	case BSP_BUTTON_RIGHT:
-		// Aumenta o contraste
-		return(EV_NONE);
+		// Avança musica
+		break;
 
 	default:
 		break;
 	}
 
-	// Retorna para Menu principal
-	return(EV_BACK);
+	// Continua no estado atual
+	return(EV_NONE);
+}
+
+/**
+ * @brief	Exibe a tela para configuração do parâmetro agudos
+ * @param	fsm ponteiro para estrutura FSM
+ * @param	this Manipulador do objeto de máquina de estados
+ * @return	sinal de resposta obtido durante a execução do estado
+ */
+evHandler menu_treble(fsm_handler_t* this)
+{
+	switch(BSP_Wait_Buton(5000))
+	{
+	case BSP_BUTTON_UP:
+		// Aumenta o agudo
+		break;
+
+	case BSP_BUTTON_DOWN:
+		// Diminuio o Agudo
+		break;
+
+	case BSP_BUTTON_LEFT:
+		// Volta para o estado ativo daa máquina
+		return(EV_UP);
+
+	case BSP_BUTTON_RIGHT:
+		// Abre o próximo Menu de configurações
+		return(EV_DOWN);
+
+	default:
+		break;
+	}
+
+	// Continua no estado atual
+	return(EV_NONE);
+}
+
+/**
+ * @brief	Exibe a tela para configuração do parâmetro médio
+ * @param	fsm ponteiro para estrutura FSM
+ * @param	this Manipulador do objeto de máquina de estados
+ * @return	sinal de resposta obtido durante a execução do estado
+ */
+evHandler menu_mid(fsm_handler_t* this)
+{
+	switch(BSP_Wait_Buton(5000))
+	{
+	case BSP_BUTTON_UP:
+		// Aumenta o equalizador de médios
+		break;
+
+	case BSP_BUTTON_DOWN:
+		// Diminui o equalizador de médios
+		break;
+
+	case BSP_BUTTON_LEFT:
+		// Abre o Menu de configurações anterior
+		return(EV_UP);
+
+	case BSP_BUTTON_RIGHT:
+		// Abre o próximo Menu de configurações
+		return(EV_DOWN);
+
+	default:
+		break;
+	}
+
+	// Continua no estado atual
+	return(EV_NONE);
+}
+
+/**
+ * @brief	Exibe a tela para configuração do parâmetro grave
+ * @param	fsm ponteiro para estrutura FSM
+ * @param	this Manipulador do objeto de máquina de estados
+ * @return	sinal de resposta obtido durante a execução do estado
+ */
+evHandler menu_bass(fsm_handler_t* this)
+{
+	switch(BSP_Wait_Buton(5000))
+	{
+	case BSP_BUTTON_UP:
+		// Aumenta o equalizador de grave
+		break;
+
+	case BSP_BUTTON_DOWN:
+		// Diminui o equalizador de grave
+		break;
+
+	case BSP_BUTTON_LEFT:
+		// Abre o Menu de configurações anterior
+		return(EV_UP);
+
+	case BSP_BUTTON_RIGHT:
+		// Abre o próximo Menu de configurações
+		return(EV_DOWN);
+
+	default:
+		break;
+
+	}
+
+	// Continua no estado atual
+	return(EV_NONE);
 }
